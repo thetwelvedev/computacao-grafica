@@ -30,23 +30,28 @@ def liga_pixel(x, y, matriz):
         matriz[y][x] = "⬛" 
 
 def gerar_reta(x1, y1, x2, y2, matriz):
-    dx = abs(x2 - x1)
-    dy = abs(y2 - y1)
+    dx = x2 - x1
+    dy = y2 - y1
+
+    # Guarda a direção (sinal)
+    sx = 1 if dx >= 0 else -1 #se = 1 direita, se = -1 esquerda
+    sy = 1 if dy >= 0 else -1 #se = 1 cima, se = -1 baixo
+
+    dx = abs(dx)
+    dy = abs(dy)
 
     if dx > dy: #aqui eu vou verificar se vou ter que preencher os espaços horizontalmente
         inc = dy/dx #O incremento sempre é a razão entre a menor diferença pela maior diferença
         y = y1 #aqui atribuo dessa forma para y começar do inicio 
-        for x in range(x1, x2 + 1):
-            liga_pixel(x, y, matriz)
-            y = y + inc
-            y = arredondar(y) #python não sabe arredondar direito e então tenho que fazer esse arredondamento
+        for x in range(x1, x2 + sx, sx): #aqui usamos o sinal para definir para qual sentido vai se é da  esquerda para a direita ou da direita para a esquerda
+            liga_pixel(x, arredondar(y), matriz)
+            y += inc * sy #aqui como valor entra absoluto, o sinal vai indicar se vai decrementar ou incrementar, nesse caso se vai para cima ou para baixo
     else : #aqui vai preencher verticalmente pois é maior verticalmente
         inc = dx/dy
         x = x1
-        for y in range(y1, y2 + 1):
-            liga_pixel(x, y, matriz)
-            x = x + inc
-            x = arredondar(x)
+        for y in range(y1, y2 + sy, sy): 
+            liga_pixel(arredondar(x), y, matriz)
+            x += inc * sx
 
 def arredondar(y):
     if y >= 0:
