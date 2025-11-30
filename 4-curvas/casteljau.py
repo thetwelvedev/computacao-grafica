@@ -80,28 +80,28 @@ def mostrar_matriz_grafica(matriz, P0, P1, P2, P3, num_linhas, num_colunas):
 
     plt.show()
 
-def lerp(p0, p1, t):
-    # Interpolação linear
+def lerp(p0, p1, t): #trás o ponto no meio
+    #Interpolação linear
     x = (1 - t) * p0[0] + t * p1[0]
     y = (1 - t) * p0[1] + t * p1[1]
-    return (x, y)
+    return (x, y) #Retorna o novo ponto interpolado
 
 def casteljau(pontos, t):
     # Algoritmo de De Casteljau (recursivo)
-    if len(pontos) == 1:
+    if len(pontos) == 1: #Aqui é caso base quando fica só um ponto
         return pontos[0]
 
-    novos = []
-    for i in range(len(pontos) - 1):
-        novos.append(lerp(pontos[i], pontos[i + 1], t))
+    novos = [] #Aqui vai armazenando os pontos interpolados
+    for i in range(len(pontos) - 1):#Percorre os pontos de controle e interpola par a par
+        novos.append(lerp(pontos[i], pontos[i + 1], t))#pega o novo ponto
 
-    return casteljau(novos, t)
+    return casteljau(novos, t) #Chama recursivamete, cada vez com a lista menor
 
 def gerar_curvas(P0, P1, P2, P3, matriz, num_linhas, num_colunas):
     passo = 0.01
     t = 0.0
 
-    pontos = [P0, P1, P2, P3]
+    pontos = [P0, P1, P2, P3]#pontos de controle
 
     while t <= 1:
         # Usa De Casteljau para achar o ponto da curva
