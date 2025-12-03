@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from math import floor, ceil
 
 def menu():
     num_linha, num_coluna = map(int, input("Escolha o tamanho da matriz (ex: 40x40): ").split("x"))
@@ -88,8 +89,14 @@ def gerar_curvas(P0, P1, P2, P3, matriz, num_linhas, num_colunas):
         x = ((1 - t)**3) * P0[0] + 3*t*((1 - t)**2) * P1[0] + 3*(t**2)*(1 - t) * P2[0] + (t**3) * P3[0] #x = x(t)
         y = ((1 - t)**3) * P0[1] + 3*t*((1 - t)**2) * P1[1] + 3*(t**2)*(1 - t) * P2[1] + (t**3) * P3[1] #y = y(t)
 
-        liga_pixel(round(x), round(y), matriz, num_linhas, num_colunas)
+        liga_pixel(arredondar(x), arredondar(y), matriz, num_linhas, num_colunas)
         t += passo
+
+def arredondar(y):
+    if y >= 0:
+        return floor(y + 0.5) #aqui é paa números inteiros, quando for mas que 0.5 vai para próxima casa decimal e arredonda para baixo se for menor ou igual que 0.4 vai ficar no máximo 0.9 então vai para casa decimal anterior
+    else:
+        return ceil(y - 0.5)
 
 if __name__ == "__main__":
     menu()
