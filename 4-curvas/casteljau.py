@@ -19,7 +19,7 @@ def menu():
     P2 = (x2, y2)
     P3 = (x3, y3)
 
-    gerar_curvas(P0, P1, P2, P3, matriz, num_linha, num_coluna)
+    casteljau(P0, P1, P2, P3, matriz, num_linha, num_coluna)
 
     print("\nResultado:")
     mostrar_matriz_terminal(matriz, num_linha, num_coluna)
@@ -80,10 +80,43 @@ def mostrar_matriz_grafica(matriz, P0, P1, P2, P3, num_linhas, num_colunas):
 
     plt.show()
 
+def distancia(p1, p2):
+    """Calcula a distância euclidiana entre dois pontos"""
+    return np.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2)
 
-def gerar_curvas(P0, P1, P2, P3, matriz, num_linhas, num_colunas):
-#Arrumar essa função
+def ponto_medio(p1, p2):
+    return ((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
+
+def casteljau(P0, P1, P2, P3, matriz, num_linhas, num_colunas, tolerancia=1.0):
+    #Critério de parada: se a distância entre o primeiro e último ponto for pequena
+    dist = distancia(P0, P3)
+    
+    if dist < tolerancia:
+        #Liga os pixels ao longo da linha reta entre P0 e P3
+        liga_pixel(int(round(P0[0])), int(round(P0[1])), matriz, num_linhas, num_colunas)
+        liga_pixel(int(round(P3[0])), int(round(P3[1])), matriz, num_linhas, num_colunas)
+        return
+    
+    #Primeira subdivisão: pontos médios do polígono de controle
+    P01 = ponto_medio(P0, P1)
+    P12 = ponto_medio(P1, P2)
+    P23 = ponto_medio(P2, P3)
+    
+    #Segunda subdivisão: pontos médios dos pontos médios
+    P012 = ponto_medio(P01, P12)
+    P123 = ponto_medio(P12, P23)
+    
+    #Terceira subdivisão: ponto final que divide a curva
+    P0123 = ponto_medio(P012, P123)
+    
+    #Liga o pixel do ponto de subdivisão
+    liga_pixel(int(round(P0123[0])), int(round(P0123[1])), matriz, num_linhas, num_colunas)
+    
+    #Recursão para o lado esquerdo: P0, P01, P012, P0123
+    casteljau(P0, P01, P012, P0123, matriz, num_linhas, num_colunas, tolerancia)
+    
+    #Recursão para o lado direito: P0123, P123, P23, P3
+    casteljau(P0123, P123, P23, P3, matriz, num_linhas, num_colunas, tolerancia)
 
 if __name__ == "__main__":
     menu()
-#Usar o ponto médio e salvar os pontos relacionados aos dois lados direito e esquerdo.
