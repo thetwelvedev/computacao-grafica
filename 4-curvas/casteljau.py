@@ -89,34 +89,28 @@ def ponto_medio(p1, p2):
     return ((p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2)
 
 def casteljau(P0, P1, P2, P3, matriz, num_linhas, num_colunas, tolerancia=1.0):
-    #Critério de parada: se a distância entre o primeiro e último ponto for pequena
-    dist = distancia(P0, P3)
     
+    dist = distancia(P0, P3) #Critério de parada
     if dist < tolerancia:
-        #Liga os pixels ao longo da linha reta entre P0 e P3
-        liga_pixel(int(round(P0[0])), int(round(P0[1])), matriz, num_linhas, num_colunas)
-        liga_pixel(int(round(P3[0])), int(round(P3[1])), matriz, num_linhas, num_colunas)
+        liga_pixel(arredondar(P0[0]), arredondar(P0[1]), matriz, num_linhas, num_colunas) #liga esses dois pontos pois não tem mais o que dividir, já é quase uma reta
+        liga_pixel(arredondar(P3[0]), arredondar(P3[1]), matriz, num_linhas, num_colunas)
         return
     
-    #Primeira subdivisão: pontos médios do polígono de controle
+    #Primeira subdivisão - encontra os 3 primeiros pontos médios
     P01 = ponto_medio(P0, P1)
     P12 = ponto_medio(P1, P2)
     P23 = ponto_medio(P2, P3)
-    
-    #Segunda subdivisão: pontos médios dos pontos médios
+    #Segunda subdivisão - encontra os pontos médios dos pontos médios
     P012 = ponto_medio(P01, P12)
     P123 = ponto_medio(P12, P23)
-    
-    #Terceira subdivisão: ponto final que divide a curva
+    #Terceira subdivisão - ponto final que divide a curva
     P0123 = ponto_medio(P012, P123)
-    
-    #Liga o pixel do ponto de subdivisão
+    #Liga o pixel do ponto final
     liga_pixel(arredondar(P0123[0]), arredondar(P0123[1]), matriz, num_linhas, num_colunas)
     
-    #Recursão para o lado esquerdo: P0, P01, P012, P0123
+    #Percorre o lado esquerdo
     casteljau(P0, P01, P012, P0123, matriz, num_linhas, num_colunas, tolerancia)
-    
-    #Recursão para o lado direito: P0123, P123, P23, P3
+    #Percorre o lado direito
     casteljau(P0123, P123, P23, P3, matriz, num_linhas, num_colunas, tolerancia)
 
 def arredondar(y):
