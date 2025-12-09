@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from math import floor, ceil
 
 def menu():
     num_linha, num_coluna = map(int, input("Escolha o tamanho da matriz (ex: 40x40): ").split("x"))
@@ -110,13 +111,19 @@ def casteljau(P0, P1, P2, P3, matriz, num_linhas, num_colunas, tolerancia=1.0):
     P0123 = ponto_medio(P012, P123)
     
     #Liga o pixel do ponto de subdivisão
-    liga_pixel(int(round(P0123[0])), int(round(P0123[1])), matriz, num_linhas, num_colunas)
+    liga_pixel(arredondar(P0123[0]), arredondar(P0123[1]), matriz, num_linhas, num_colunas)
     
     #Recursão para o lado esquerdo: P0, P01, P012, P0123
     casteljau(P0, P01, P012, P0123, matriz, num_linhas, num_colunas, tolerancia)
     
     #Recursão para o lado direito: P0123, P123, P23, P3
     casteljau(P0123, P123, P23, P3, matriz, num_linhas, num_colunas, tolerancia)
+
+def arredondar(y):
+    if y >= 0:
+        return floor(y + 0.5) #aqui é paa números inteiros, quando for mas que 0.5 vai para próxima casa decimal e arredonda para baixo se for menor ou igual que 0.4 vai ficar no máximo 0.9 então vai para casa decimal anterior
+    else:
+        return ceil(y - 0.5)
 
 if __name__ == "__main__":
     menu()
