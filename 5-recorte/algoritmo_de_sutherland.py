@@ -1,10 +1,7 @@
 import matplotlib.pyplot as plt
 
-# --- Definição da Janela de Recorte e Dados ---
-
-# Dimensões da Tela de Visualização (Canvas)
+# Dimensões da Tela de Visualização
 WIDTH, HEIGHT = 400, 400
-PIXEL_SIZE = 1 # Não usado diretamente para matplotlib, mas mantido.
 
 # Limites da Janela de Recorte
 X_MIN, Y_MIN = -100, -100
@@ -115,35 +112,23 @@ def sutherland_hodgman(polygon, edge_index):
         s_inside = is_inside(s, edge_index)
         p_inside = is_inside(p, edge_index)
         
-        if s_inside and p_inside:
-            # CASO 1: s -> dentro, p -> dentro
+        if s_inside and p_inside:# CASO 1: s -> dentro, p -> dentro
             # Apenas 'p' é adicionado à lista de saídas.
-            # O primeiro ponto 's' (que era o último do polígono anterior)
-            # já estaria na lista se fosse a primeira aresta, mas como o algoritmo
-            # funciona sequencialmente, 's' já foi tratado no passo anterior
-            # como 'p'. Apenas 'p' é adicionado.
             output_list.append(p)
             
-        elif s_inside and not p_inside:
-            # CASO 2: s -> dentro, p -> fora
-            # O ponto de interseção 'i' é adicionado.
-            # O ponto 'i' de interseção entre (s, p) e a linha de recorte é tratado como vértice de saída.
+        elif s_inside and not p_inside: # CASO 2: s -> dentro, p -> fora
+            # O ponto 'i' de interseção entre (s, p) é tratado como vértice de saída.
             intersection = compute_intersection(s, p, edge_index)
             output_list.append(intersection)
             
-        elif not s_inside and p_inside:
-            # CASO 4 (do enunciado): s -> fora, p -> dentro
+        elif not s_inside and p_inside: # CASO 4 (do enunciado): s -> fora, p -> dentro
             # O ponto de interseção 'i' e 'p' são adicionados.
-            # O ponto 'i' de interseção e 'p' (o ponto 'dentro') são colocados na lista.
             intersection = compute_intersection(s, p, edge_index)
             output_list.append(intersection)
             output_list.append(p)
             
-        # elif not s_inside and not p_inside:
-            # CASO 3: s -> fora, p -> fora
+        # elif not s_inside and not p_inside:  # CASO 3: s -> fora, p -> fora
             # Nenhum ponto é adicionado (os dois vértices são descartados).
-            # output_list permanece inalterada.
-
         # 'p' se torna o próximo ponto de partida 's' para a próxima iteração
         s = p
         
