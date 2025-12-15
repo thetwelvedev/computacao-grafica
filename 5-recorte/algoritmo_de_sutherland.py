@@ -91,20 +91,13 @@ def compute_intersection(s, p, edge_index):
 # --- Algoritmo Principal ---
 
 def sutherland_hodgman(polygon, edge_index):
-    """
-    Implementa o algoritmo Sutherland-Hodgman para uma única aresta de recorte.
-    
-    polygon: lista de vértices [(x1, y1), (x2, y2), ...]
-    edge_index: 0=Esquerda, 1=Direita, 2=Inferior, 3=Superior
-    """
     input_list = polygon
     output_list = []
     
     if not input_list:
         return []
 
-    # O processo é sequencial: (v1, v2), (v2, v3), ..., (vn, v1)
-    s = input_list[-1]  # 's' de 'Start' ou 'Source' (último ponto para começar o loop)
+    s = input_list[-1]
     
     for p in input_list: # 'p' de 'Point'
         # Regras de recorte para a aresta (s, p)
