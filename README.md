@@ -14,7 +14,8 @@
 - [x] **Trabalho 1** – Até 13/11 – Retas (Método Analítico, DDA e Bresenham)
 - [x] **Trabalho 2** – Até 13/11 – Circunferência (Equação Paramétrica, Incremental com Simetria e Bresenham)
 - [x] **Trabalho 3** – Até 13/11 – Preenchimento (Flood Fill e Varredura com Análise Geométrica)
-- [x] **Trabalho 4** – Até 15/12 Curvas de Bézier (Equação Paramétrica e Casteljau)
+- [x] **Trabalho 4** – Até 15/12 - Curvas de Bézier (Equação Paramétrica e Casteljau)
+- [x] **Trabalho 5** – Até 15/12 - Recorte (Sutherland-Hodgman)
 
 ---
 
