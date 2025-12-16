@@ -21,7 +21,7 @@
 
 ## Provas Realizadas:
 - [x] **Primeira Prova** – 11/11 – Slides 6 a 11
-- [ ] **Segunda Prova** – 16/12 - Slides 12 a 16
+- [x] **Segunda Prova** – 16/12 - Slides 12 a 16
 
 ---
 
